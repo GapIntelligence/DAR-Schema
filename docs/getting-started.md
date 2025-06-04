@@ -85,15 +85,15 @@ Once you have your DAR file, you can use the `dar_parser.py` tool to read and an
 
 ### Step 1: Parse the DAR File
 
-Run the `dar_parser.py` script to parse the DAR file and extract key information.
+Run the `dar_parser.py` script with the `--summary` flag to parse the DAR file and display a summary.
 
 ```bash
-python tools/dar_parser.py
+python tools/dar_parser.py --summary output.dar
 ```
 
 ### Step 2: View the Parsed Data
 
-The script will prompt you for the path to your DAR file and output a summary, including:
+The script will output a summary that includes:
 - Number of renders captured.
 - Summary of scraping results.
 - Number of HTTP request entries.
@@ -108,6 +108,14 @@ parser = DARParser('output.dar')
 
 # Print a detailed summary of the DAR file
 parser.print_dar_summary()
+```
+
+### Step 3: Validate the DAR File
+
+Use the validator script to ensure the file conforms to the DAR schema:
+
+```bash
+python tools/validators/dar_validator.py --validate output.dar
 ```
 
 ## Integrating DAR in Your Scraping Workflow
