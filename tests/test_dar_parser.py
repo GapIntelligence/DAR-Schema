@@ -19,7 +19,13 @@ class TestDARParser(unittest.TestCase):
                     "version": "1.0"
                 },
                 "pages": [],
-                "entries": []
+                "entries": [
+                    {
+                        "request": {"method": "GET", "url": "https://example.com"},
+                        "response": {"status": 200, "statusText": "OK"},
+                        "time": 75
+                    }
+                ]
             }
         }
 
@@ -35,11 +41,22 @@ class TestDARParser(unittest.TestCase):
         with open(self.dar_file, 'r', encoding='utf-8') as f:
             dar_data = json.load(f)
 
-        # Test if renders and result objects are added correctly
-        self.assertIn('renders', dar_data['log'], "DAR file missing 'renders' object.")
-        self.assertIn('result', dar_data['log'], "DAR file missing 'result' object.")
-        self.assertEqual(dar_data['log']['result']['summary'], "Crawl completed successfully",
-                         "DAR 'result' object summary is incorrect.")
+        # Entries copied correctly
+        self.assertEqual(dar_data['log']['entries'][0]['response']['status'], 200)
+
+        # Validate renders object
+        self.assertIn('renders', dar_data['log'])
+        renders = dar_data['log']['renders']
+        self.assertEqual(len(renders), 1)
+        self.assertEqual(renders[0]['url'], "https://example.com")
+        self.assertEqual(renders[0]['status'], "200")
+
+        # Validate result object
+        self.assertIn('result', dar_data['log'])
+        result = dar_data['log']['result']
+        self.assertEqual(result['summary'], "Crawl completed successfully")
+        self.assertEqual(result['metrics']['requests'], 1)
+        self.assertEqual(result['errors'], [])
 
     def tearDown(self):
         # Clean up test files
