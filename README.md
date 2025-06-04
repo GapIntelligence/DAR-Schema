@@ -67,6 +67,7 @@ For a detailed look at the DAR Schema, see the [SPEC.md](SPEC.md) file in the ro
 - **[Getting Started Guide](docs/getting-started.md)**: A step-by-step guide on setting up and using DAR files.
 - **[Comparison with HAR](docs/comparison-with-HAR.md)**: Learn how DAR files improve upon traditional HAR files.
 - **[Usage Examples](docs/usage-examples.md)**: Explore practical examples of how to use DAR in various scenarios.
+- **[Validation Guide](docs/validation.md)**: Learn how to verify DAR files using the provided schema.
 
 ## **Contributing**
 
