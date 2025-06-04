@@ -35,13 +35,7 @@ python --version
 
 If Python is not installed, you can download it from [Python's official website](https://www.python.org/downloads/).
 
-Next, install the required Python packages:
-
-```bash
-pip install -r requirements.txt
-```
-
-This command installs dependencies that are required for running the DAR conversion and parsing scripts.
+The sample tools included with DAR-Schema only rely on Python's standard library, so no additional packages are required at this time.
 
 ## Setting Up Your Environment
 
