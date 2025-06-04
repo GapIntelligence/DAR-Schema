@@ -46,7 +46,7 @@ Parsing DAR files is straightforward using the `dar_parser.py` script. This pars
 2. **Parse the DAR file using the `dar_parser.py` script**:
 
     ```bash
-    python tools/dar_parser.py
+    python tools/dar_parser.py --summary sample_output.dar
     ```
 
 3. **View the parsed data**: The script will output a summary of the DAR file, including the number of renders, summary of results, and number of request entries.
@@ -120,6 +120,14 @@ convert_har_to_dar('session.har', 'session.dar')
 # Parse the DAR file and analyze results
 parser = DARParser('session.dar')
 parser.print_dar_summary()
+```
+
+## Validating a DAR File
+
+Before using a DAR file in production, you can validate it against the schema:
+
+```bash
+python tools/validators/dar_validator.py --validate session.dar
 ```
 
 ## Error Handling and Metrics

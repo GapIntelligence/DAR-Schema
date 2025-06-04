@@ -8,7 +8,7 @@ the correct format of the DAR file.
 """
 
 import json
-import sys
+import argparse
 
 
 class DARValidator:
@@ -120,15 +120,30 @@ class DARValidator:
             print("DAR file is valid and conforms to the schema.")
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python dar_validator.py <path_to_dar_file>")
-        sys.exit(1)
+def main():
+    arg_parser = argparse.ArgumentParser(
+        description="Validate a DAR file against the schema"
+    )
+    arg_parser.add_argument(
+        "file",
+        help="Path to the DAR file to validate",
+    )
+    arg_parser.add_argument(
+        "--validate",
+        action="store_true",
+        help="Run validation and print a report",
+    )
 
-    file_path = sys.argv[1]
-    try:
-        validator = DARValidator(file_path)
+    args = arg_parser.parse_args()
+
+    validator = DARValidator(args.file)
+    if args.validate:
         validator.print_validation_report()
+
+
+if __name__ == "__main__":
+    try:
+        main()
     except Exception as e:
         print(f"An error occurred: {e}")
 

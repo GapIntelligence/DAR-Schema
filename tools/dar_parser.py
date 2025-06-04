@@ -8,6 +8,7 @@ with additional objects such as 'renders' and 'result'.
 """
 
 import json
+import argparse
 
 
 class DARParser:
@@ -89,12 +90,31 @@ class DARParser:
         print(f"Number of Request Entries: {len(self.get_request_entries())}")
 
 
-if __name__ == "__main__":
-    # Example usage
-    file_path = input("Enter the path to your DAR file: ")
-    try:
-        parser = DARParser(file_path)
+def main():
+    arg_parser = argparse.ArgumentParser(
+        description="Parse a DAR file and display information"
+    )
+    arg_parser.add_argument(
+        "file",
+        help="Path to the DAR file to parse",
+    )
+    arg_parser.add_argument(
+        "--summary",
+        action="store_true",
+        help="Print a summary of the DAR file",
+    )
+
+    args = arg_parser.parse_args()
+
+    parser = DARParser(args.file)
+
+    if args.summary:
         parser.print_dar_summary()
+
+
+if __name__ == "__main__":
+    try:
+        main()
     except Exception as e:
         print(f"An error occurred: {e}")
 
