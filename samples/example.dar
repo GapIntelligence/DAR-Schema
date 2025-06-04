@@ -1,0 +1,22 @@
+{
+  "log": {
+    "version": "1.4",
+    "creator": {
+      "name": "DAR Converter",
+      "version": "1.0"
+    },
+    "renders": [
+      {
+        "url": "https://example.com",
+        "status": "200",
+        "content": "<html>...</html>",
+        "time": "2024-09-05T12:00:00Z"
+      }
+    ],
+    "result": {
+      "summary": "Crawl completed successfully"
+    },
+    "entries": []
+  }
+}
+

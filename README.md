@@ -47,7 +47,12 @@ python tools/har_to_dar_converter.py input.har output.dar
 
 ### Examples
 
-Check the `samples/` directory for example DAR files that demonstrate the extended capabilities of this format. Sample files include real-world use cases to help you get started quickly.
+Check the `samples/` directory for example `.har` and `.dar` files. These samples let you try the converter and inspect DAR output immediately. To view them from the command line:
+
+```bash
+less samples/example.har
+jq '.' samples/example.dar
+```
 
 ## **DAR Schema Specification**
 
