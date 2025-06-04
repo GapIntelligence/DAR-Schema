@@ -8,18 +8,22 @@ the correct format of the DAR file.
 """
 
 import json
+import os
 import sys
+from jsonschema import Draft7Validator
 
 
 class DARValidator:
-    def __init__(self, file_path):
+    def __init__(self, file_path, schema_path=None):
         """
         Initialize the DARValidator with a specified DAR file.
 
         :param file_path: Path to the DAR file to be validated.
         """
         self.file_path = file_path
+        self.schema_path = schema_path or os.path.join(os.path.dirname(__file__), '..', '..', 'dar.schema.json')
         self.data = self.load_dar_file()
+        self.schema = self.load_schema()
 
     def load_dar_file(self):
         """
@@ -34,8 +38,18 @@ class DARValidator:
         except FileNotFoundError:
             print(f"Error: File {self.file_path} not found.")
             raise
+
+    def load_schema(self):
+        """Loads the JSON Schema used for DAR validation."""
+        try:
+            schema_path = os.path.abspath(self.schema_path)
+            with open(schema_path, 'r', encoding='utf-8') as file:
+                return json.load(file)
+        except FileNotFoundError:
+            print(f"Error: Schema file {self.schema_path} not found.")
+            raise
         except json.JSONDecodeError:
-            print(f"Error: File {self.file_path} is not a valid JSON.")
+            print(f"Error: Schema file {self.schema_path} is not a valid JSON.")
             raise
 
     def validate(self):
@@ -44,68 +58,8 @@ class DARValidator:
 
         :return: A list of validation errors, empty if no errors are found.
         """
-        errors = []
-        log = self.data.get('log')
-
-        # Validate log object
-        if not log:
-            errors.append("Missing 'log' object.")
-        else:
-            # Validate version
-            if 'version' not in log or not isinstance(log['version'], str):
-                errors.append("Missing or invalid 'version' field in 'log' object.")
-
-            # Validate creator object
-            creator = log.get('creator')
-            if not creator or 'name' not in creator or 'version' not in creator:
-                errors.append("Missing or incomplete 'creator' object in 'log'.")
-
-            # Validate renders object
-            renders = log.get('renders')
-            if not renders or not isinstance(renders, list):
-                errors.append("Missing or invalid 'renders' object; must be a list.")
-
-            # Check each render object
-            for i, render in enumerate(renders):
-                if not isinstance(render, dict):
-                    errors.append(f"Render object at index {i} is not a dictionary.")
-                    continue
-
-                if 'url' not in render or not isinstance(render['url'], str):
-                    errors.append(f"Missing or invalid 'url' in render object at index {i}.")
-
-                if 'status' not in render or not isinstance(render['status'], str):
-                    errors.append(f"Missing or invalid 'status' in render object at index {i}.")
-
-                if 'content' not in render or not isinstance(render['content'], str):
-                    errors.append(f"Missing or invalid 'content' in render object at index {i}.")
-
-                if 'time' not in render or not isinstance(render['time'], str):
-                    errors.append(f"Missing or invalid 'time' in render object at index {i}.")
-
-            # Validate result object
-            result = log.get('result')
-            if not result or not isinstance(result, dict):
-                errors.append("Missing or invalid 'result' object; must be a dictionary.")
-            else:
-                if 'summary' not in result or not isinstance(result['summary'], str):
-                    errors.append("Missing or invalid 'summary' in 'result' object.")
-
-                # Optional: validate errors array and metrics object
-                errors_list = result.get('errors')
-                if errors_list and not isinstance(errors_list, list):
-                    errors.append("'errors' in 'result' should be a list if present.")
-
-                metrics = result.get('metrics')
-                if metrics and not isinstance(metrics, dict):
-                    errors.append("'metrics' in 'result' should be a dictionary if present.")
-
-            # Validate entries object
-            entries = log.get('entries')
-            if not entries or not isinstance(entries, list):
-                errors.append("Missing or invalid 'entries' object; must be a list.")
-
-        return errors
+        validator = Draft7Validator(self.schema)
+        return [err.message for err in validator.iter_errors(self.data)]
 
     def print_validation_report(self):
         """
@@ -121,13 +75,14 @@ class DARValidator:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python dar_validator.py <path_to_dar_file>")
+    if len(sys.argv) < 2 or len(sys.argv) > 3:
+        print("Usage: python dar_validator.py <path_to_dar_file> [schema.json]")
         sys.exit(1)
 
     file_path = sys.argv[1]
+    schema_path = sys.argv[2] if len(sys.argv) == 3 else None
     try:
-        validator = DARValidator(file_path)
+        validator = DARValidator(file_path, schema_path)
         validator.print_validation_report()
     except Exception as e:
         print(f"An error occurred: {e}")
