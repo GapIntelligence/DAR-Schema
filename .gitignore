@@ -76,4 +76,7 @@ _site/
 # DAR and HAR specific
 *.dar
 *.har
+# Allow example files in samples/
+!samples/*.dar
+!samples/*.har
 
