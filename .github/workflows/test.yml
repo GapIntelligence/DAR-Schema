@@ -19,3 +19,17 @@ jobs:
       - name: Run tests
         run: |
           python -m unittest discover -s tests
+
+  publish:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Archive docs
+        run: zip -r docs.zip docs
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: docs.zip
