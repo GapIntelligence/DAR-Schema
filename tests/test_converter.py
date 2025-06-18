@@ -12,7 +12,7 @@ class TestConverter(unittest.TestCase):
         self.input_har = 'input_test.har'
         self.output_dar = 'output_test.dar'
 
-        # Example HAR content
+        # Example HAR content with a single entry
         har_content = {
             "log": {
                 "version": "1.2",
@@ -20,7 +20,13 @@ class TestConverter(unittest.TestCase):
                     "name": "browser",
                     "version": "1.0"
                 },
-                "entries": []
+                "entries": [
+                    {
+                        "request": {"method": "GET", "url": "https://example.com"},
+                        "response": {"status": 200, "statusText": "OK"},
+                        "time": 50
+                    }
+                ]
             }
         }
 
@@ -36,15 +42,26 @@ class TestConverter(unittest.TestCase):
         with open(self.output_dar, 'r') as dar_file:
             dar_data = json.load(dar_file)
 
-        # Check if 'renders' object exists
-        self.assertIn('renders', dar_data['log'])
-        self.assertIsInstance(dar_data['log']['renders'], list)
+        # Entries should be copied from the HAR file
+        self.assertEqual(
+            dar_data['log']['entries'][0]['request']['url'],
+            "https://example.com"
+        )
 
-        # Check if 'result' object exists
+        # Check 'renders' object
+        self.assertIn('renders', dar_data['log'])
+        renders = dar_data['log']['renders']
+        self.assertEqual(len(renders), 1)
+        self.assertEqual(renders[0]['url'], "https://example.com")
+        self.assertEqual(renders[0]['status'], "200")
+        self.assertIn('time', renders[0])
+
+        # Check 'result' object
         self.assertIn('result', dar_data['log'])
-        self.assertEqual(dar_data['log']['result'], {
-            "summary": "Crawl completed successfully"
-        })
+        result = dar_data['log']['result']
+        self.assertEqual(result['summary'], "Crawl completed successfully")
+        self.assertEqual(result['metrics']['requests'], 1)
+        self.assertEqual(result['errors'], [])
 
     def tearDown(self):
         # Remove test files
