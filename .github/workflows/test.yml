@@ -30,7 +30,7 @@ jobs:
           coverage xml
           coverage report
       - name: Upload coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage.xml
@@ -46,7 +46,7 @@ jobs:
       - name: Archive docs
         run: zip -r docs.zip docs
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: docs
           path: docs.zip
