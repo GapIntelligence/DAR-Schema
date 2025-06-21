@@ -2,15 +2,18 @@
 
 [![CI](https://github.com/GapIntelligence/DAR-Schema/actions/workflows/test.yml/badge.svg)](https://github.com/GapIntelligence/DAR-Schema/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/GapIntelligence/DAR-Schema/graph/badge.svg?token=ND7EGOIXWL)](https://codecov.io/gh/GapIntelligence/DAR-Schema)
+![Public](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/GapIntelligence/DAR-Schema/main/docs/visibility.json)
 
 The **DAR Schema** (Data Archive Request) is an open-source enhancement of the standard HAR (HTTP Archive) file format. Designed to be faster, more reliable, and more comprehensive, DAR files extend the capabilities of HAR, making them ideal for web scraping, monitoring, and data collection tasks.
 
 ## **Overview**
 
 ### What is a DAR File?
+
 A DAR file builds upon the structure of a HAR file, introducing additional objects such as `renders` and `result` that provide a richer and more complete view of the data collection process. Unlike HAR files, which primarily log HTTP requests and responses, DAR files capture the entire rendering and result of the web scraping task, making them a superior choice for advanced data analysis and archiving.
 
 ### Key Differences Between DAR and HAR
+
 - **Enhanced Data Objects**: DAR introduces new objects like `renders` to capture multiple render pages and `result` to summarize the data collection.
 - **Optimized Performance**: DAR files are designed to be faster and more efficient in handling large-scale data scraping operations.
 - **UTF-8 Encoding Requirement**: Ensures consistency and broad compatibility across different tools and platforms.
@@ -57,6 +60,7 @@ Check the `samples/` directory for example DAR files that demonstrate the extend
 ### DAR Data Structure
 
 DAR files consist of several key objects:
+
 - **`log`**: The root object, similar to HAR, which contains all exported data.
 - **`renders`**: A list of render pages captured during the scraping process. Each render object contains a snapshot of the page data at a specific time.
 - **`result`**: A summary object detailing the outcome of the scraping task, including key metrics and any errors encountered.
@@ -76,6 +80,7 @@ For a detailed look at the DAR Schema, see the [SPEC.md](SPEC.md) file in the ro
 We welcome contributions to the DAR Schema! If you have suggestions, bug reports, or want to contribute code, please review our [Contributing Guide](CONTRIBUTING.md) and submit a pull request.
 
 ### How to Contribute
+
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch`).
 3. Commit your changes (`git commit -am 'Add new feature'`).
@@ -89,6 +94,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## **Community and Support**
 
 Join the conversation and get support from the community:
+
 - **GitHub Discussions**: Use the Discussions tab to ask questions, share ideas, and get help from other users.
 - **Report Issues**: Found a bug? Let us know by opening an issue in the repository.
 
@@ -100,4 +106,3 @@ Join the conversation and get support from the community:
 ---
 
 Thank you for your interest in DAR Schema! We look forward to your feedback and contributions to make DAR the new standard for enhanced data collection.
-
