@@ -2,10 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, staging]
+    branches: ["staging", "main", "master"]
   pull_request:
-    branches: [main, staging]
-
+    branches: ["staging", "main", "master"]
 jobs:
   build:
     runs-on: ubuntu-latest
