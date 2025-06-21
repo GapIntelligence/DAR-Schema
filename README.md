@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/GapIntelligence/DAR-Schema/actions/workflows/test.yml/badge.svg)](https://github.com/GapIntelligence/DAR-Schema/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/GapIntelligence/DAR-Schema/graph/badge.svg?token=ND7EGOIXWL)](https://codecov.io/gh/GapIntelligence/DAR-Schema)
-![Public](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/GapIntelligence/DAR-Schema/main/docs/visibility.json)
+![Public](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/GapIntelligence/DAR-Schema/refs/heads/staging/docs/visibility.json)
 
 The **DAR Schema** (Data Archive Request) is an open-source enhancement of the standard HAR (HTTP Archive) file format. Designed to be faster, more reliable, and more comprehensive, DAR files extend the capabilities of HAR, making them ideal for web scraping, monitoring, and data collection tasks.
 
